@@ -1,0 +1,30 @@
+body, html {
+	min-height: 100vh;
+	min-width: 100vw;
+}
+
+.app {
+	padding-top: 100px;
+	display: inline-block;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.row, .container {
+	display: inline-block;
+}
+
+p {
+	font-size: 15px;
+}
+
+input[type='checkbox'] {
+	top: 0;
+}
+
+textarea {
+	resize: none;
+	width: 500px;
+	height: 200px;
+}
