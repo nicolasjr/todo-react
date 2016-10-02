@@ -16,15 +16,6 @@ var Task = React.createClass({
 
 	handleDeleteClick: function() {
 		this.props.handleDelete(this.state.task);
-		console.log("delete");
-	},
-
-	componentDidMount: function() {
-
-	},
-
-	componentWillUnmount: function() {
-		// TODO: remove callbacks for edit and delete methods.
 	},
 
 	render: function() {
