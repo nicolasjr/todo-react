@@ -32,35 +32,61 @@ function generateUUID() {
 var Controller = React.createClass({
 
 	getInitialState: function() {
-		const tasks = [ { description: "Clean garage", done: false, id: generateUUID() }, { description: "Buy groceries", done: false, id: generateUUID() } ];
+		const tasks = [ this.createTask("Clean garage"), this.createTask("Buy groceries") ];
 
 		return { view: Screens.list, tasks: tasks };
-	},
-
-	editEntry: function(entry) {
-		this.setState( { view: Screens.edit, task: entry } );
-	},
-
-	closeEdit: function() {
-		this.setState( { view: Screens.list } );
 	},
 
 	createTask: function(taskDescription) {
 		return { description: taskDescription, done: false, id: generateUUID() };
 	},
 
-	addTask: function(taskDescription) {
+	editEntry: function(entry) {
+		if (!entry)
+			entry = this.createTask();
+
+		this.setState( { view: Screens.edit, task: entry } );
+	},
+
+	deleteEntry: function(task) {
 		const tasks = this.state.tasks;
-		tasks.push(this.createTask(taskDescription));
+
+		for (var i = 0; i < tasks.length; i++) {
+			if (task.id === tasks[i].id) {
+				tasks.splice(i, 1);
+				break;
+			}
+		}
+
+		this.setState( { tasks: tasks } );
+	},
+
+	closeEdit: function() {
+		this.setState( { view: Screens.list } );
+	},
+
+	addTask: function(task) {
+		const tasks = this.state.tasks;
+		
+		var exists = false;
+		for (var i = 0; i < tasks.length; i++) {
+			if (task.id === tasks[i].id) {
+				tasks[i] = task;
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+			tasks.push(task);
 
 		this.setState( { tasks: tasks } );
 	},
 
 	render: function() {
 		if (this.state.view === Screens.list)
-			return React.createElement(List, { tasks: this.state.tasks, edit: this.editEntry });
+			return React.createElement(List, { tasks: this.state.tasks, handleEdit: this.editEntry, handleDelete: this.deleteEntry });
 		if (this.state.view === Screens.edit)
-			return React.createElement(Edit, { item: this.state.task, close: this.closeEdit, addTask: this.addTask } );
+			return React.createElement(Edit, { task: this.state.task, handleClose: this.closeEdit, addTask: this.addTask } );
 	}
 
 });
@@ -69,3 +95,5 @@ ReactDOM.render(
     React.createElement(Controller),
     document.getElementById("app")
 );
+
+

@@ -11,15 +11,16 @@ var Task = React.createClass({
 	},
 
 	handleEditClick: function() {
-		console.log("edit");
+		this.props.handleEdit(this.state.task);
 	},
 
 	handleDeleteClick: function() {
+		this.props.handleDelete(this.state.task);
 		console.log("delete");
 	},
 
 	componentDidMount: function() {
-		// TODO: add callbacks for edit and delete methods.
+
 	},
 
 	componentWillUnmount: function() {
@@ -30,7 +31,7 @@ var Task = React.createClass({
 
 		const textDecoration = this.state.task.done ?  "line-through" : "none";
 
-		return React.createElement("div", { className: "col-md-12 col-sm-12 col-lg-12 col-xs-12" },
+		return React.createElement("div", { className: "task" },
 			React.createElement("div", { className: "row" },
 				
 				React.createElement("div", { className: "checkbox-inline" }, 
@@ -40,13 +41,13 @@ var Task = React.createClass({
 				),
 
 				React.createElement("p", { style: { display: "inline-block", textDecoration: textDecoration } }, this.state.task.description),
-				
-				React.createElement("button", { className: "btn btn-link", onClick: this.handleEditClick }, 
-					React.createElement("span", { className: "glyphicon glyphicon-pencil" })
-				),
 
-				React.createElement("button", { className: "btn btn-link", onClick: this.handleDeleteClick }, 
+				React.createElement("button", { className: "btn btn-link btn-task", onClick: this.handleDeleteClick }, 
 					React.createElement("span", { className: "glyphicon glyphicon-trash" })
+				),
+				
+				React.createElement("button", { className: "btn btn-link btn-task", onClick: this.handleEditClick }, 
+					React.createElement("span", { className: "glyphicon glyphicon-pencil" })
 				)
 			)
 		);
