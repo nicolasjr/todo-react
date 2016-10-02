@@ -5,11 +5,6 @@ const Screens = {
 	list: "list",
 
 	/*
-	 * To Do item.
-	 */
-	item: "item",
-
-	/*
 	 * Edit existing ToDo item.
 	 */
 	edit: "editItem"
@@ -32,7 +27,7 @@ function generateUUID() {
 var Controller = React.createClass({
 
 	getInitialState: function() {
-		const tasks = [ this.createTask("Clean garage"), this.createTask("Buy groceries") ];
+		const tasks = [ this.createTask("Create ToDo list with React.js"), this.createTask("Buy pizza (loads of pizza)") ];
 
 		return { view: Screens.list, tasks: tasks };
 	},

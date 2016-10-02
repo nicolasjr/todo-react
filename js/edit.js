@@ -28,8 +28,12 @@ var Edit = React.createClass({
 				React.createElement("h1", null, "Task"),
 				React.createElement("textarea", { onChange: this.handleChange, defaultValue: this.props.task.description } ),
 				React.createElement("br", { style: { clear: "both" } }),
-				React.createElement("button", { className: "btn btn-link", onClick: this.handleCreate }, "Save"),
-				React.createElement("button", { className: "btn btn-link", onClick: this.handleCancel }, "Cancel")
+				React.createElement("button", { className: "btn btn-link", onClick: this.handleCreate }, 
+					React.createElement("span", { className: "glyphicon glyphicon-ok"})
+				),
+				React.createElement("button", { className: "btn btn-link", onClick: this.handleCancel }, 
+					React.createElement("span", { className: "glyphicon glyphicon-remove" })
+				)
 			)
 		);
 	}
