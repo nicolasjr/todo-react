@@ -25,6 +25,7 @@ var Edit = React.createClass({
 	render: function() {
 		return React.createElement("div", { className: "container" },
 			React.createElement("div", { className: "row" }, 
+				React.createElement("h1", null, "Task"),
 				React.createElement("textarea", { onChange: this.handleChange, defaultValue: this.props.task.description } ),
 				React.createElement("br", { style: { clear: "both" } }),
 				React.createElement("button", { className: "btn btn-link", onClick: this.handleCreate }, "Save"),
