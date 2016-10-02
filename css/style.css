@@ -27,7 +27,6 @@ input[type='checkbox'] {
 
 textarea {
 	resize: none;
-	/*width: 500px;*/
 	width: 100%;
 	height: 200px;
 }
