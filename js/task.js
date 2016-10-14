@@ -8,6 +8,7 @@ var Task = React.createClass({
 		var t = this.state.task;
 		t.done = e.target.checked;
 		this.setState( { task: t });
+		this.props.handleUpdate();
 	},
 
 	handleEditClick: function() {

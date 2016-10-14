@@ -12,6 +12,10 @@ var List = React.createClass({
 		this.props.handleEdit(task);
 	},
 
+	handleUpdateTask: function() {
+		this.setState(this.state);
+	},
+
 	handleDeleteTask: function(task) {
 		this.props.handleDelete(task);
 	},
@@ -44,6 +48,7 @@ var List = React.createClass({
 					task: task,
 					handleEdit: self.handleEditTask,
 					handleDelete: self.handleDeleteTask,
+					handleUpdate: self.handleUpdateTask,
 					key: task.id
 				}));
 			}
