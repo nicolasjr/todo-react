@@ -57,3 +57,8 @@ textarea {
 .task p {
 	display: inline-block;
 }
+
+.sort {
+	display: inline-block;
+	margin: 10px;
+}

@@ -1,16 +1,3 @@
-const Screens = {
-	/*
-	 * ToDo List.
-	 */
-	list: "list",
-
-	/*
-	 * Edit existing ToDo item.
-	 */
-	edit: "editItem"
-
-};
-
 function generateUUID() {
     var d = new Date().getTime();
     if(window.performance && typeof window.performance.now === "function"){
@@ -29,7 +16,7 @@ var Controller = React.createClass({
 	getInitialState: function() {
 		const tasks = [ this.createTask("Create ToDo list with React.js"), this.createTask("Buy pizza (loads of pizza)") ];
 
-		return { view: Screens.list, tasks: tasks };
+		return { view: this.props.screen.list, tasks: tasks };
 	},
 
 	createTask: function(taskDescription) {
@@ -40,7 +27,7 @@ var Controller = React.createClass({
 		if (!entry)
 			entry = this.createTask();
 
-		this.setState( { view: Screens.edit, task: entry } );
+		this.setState( { view: this.props.screen.edit, task: entry } );
 	},
 
 	deleteEntry: function(task) {
@@ -57,7 +44,7 @@ var Controller = React.createClass({
 	},
 
 	closeEdit: function() {
-		this.setState( { view: Screens.list } );
+		this.setState( { view: this.props.screen.list } );
 	},
 
 	addTask: function(task) {
@@ -78,13 +65,28 @@ var Controller = React.createClass({
 	},
 
 	render: function() {
-		if (this.state.view === Screens.list)
+		if (this.state.view === this.props.screen.list)
 			return React.createElement(List, { tasks: this.state.tasks, handleEdit: this.editEntry, handleDelete: this.deleteEntry });
-		if (this.state.view === Screens.edit)
+		if (this.state.view === this.props.screen.edit)
 			return React.createElement(Edit, { task: this.state.task, handleClose: this.closeEdit, addTask: this.addTask } );
 	}
 
 });
+
+Controller.defaultProps = {
+	screen: {
+		/*
+		 * ToDo List.
+		 */
+		list: "list",
+
+		/*
+		 * Edit existing/new ToDo item.
+		 */
+		edit: "editItem"
+
+	}
+};
 
 ReactDOM.render(
     React.createElement(Controller),
