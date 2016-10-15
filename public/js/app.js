@@ -24,16 +24,17 @@ var Controller = React.createClass({
 	},
 
 	deleteEntry: function(task) {
-		const tasks = this.state.tasks;
+		$.post('/delete-task', { id: task.id }, this.handleData);
+		// const tasks = this.state.tasks;
 
-		for (var i = 0; i < tasks.length; i++) {
-			if (task.id === tasks[i].id) {
-				tasks.splice(i, 1);
-				break;
-			}
-		}
+		// for (var i = 0; i < tasks.length; i++) {
+		// 	if (task.id === tasks[i].id) {
+		// 		tasks.splice(i, 1);
+		// 		break;
+		// 	}
+		// }
 
-		this.setState( { tasks: tasks } );
+		// this.setState( { tasks: tasks } );
 	},
 
 	closeEdit: function() {
@@ -41,7 +42,6 @@ var Controller = React.createClass({
 	},
 
 	addTask: function(task) {
-		console.log(task);
 		$.post('/new-task', { content: JSON.stringify(task) }, this.handleData);
 	},
 

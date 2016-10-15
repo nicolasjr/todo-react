@@ -44,6 +44,23 @@ app.post("/new-task", function(req, res)
 	res.json(tasks);
 });
 
+app.post("/delete-task", function(req, res)
+{
+	const id = req.body.id;
+
+	index = tasks.map(function(obj, index) {
+	    if(obj.id === id) {
+	        return index;
+	    }
+	}).filter(isFinite);
+
+	if (index.length > 0) {
+		tasks.splice(index[0], 1);
+	}
+
+	res.json(tasks);
+});
+
 app.use(function(error, req, res, next) {
 
 	if (error) {
