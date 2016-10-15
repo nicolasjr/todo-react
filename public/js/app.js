@@ -13,14 +13,20 @@ function generateUUID() {
 
 var Controller = React.createClass({
 
-	getInitialState: function() {
-		const tasks = [ this.createTask("Create ToDo list with React.js"), this.createTask("Buy pizza (loads of pizza)") ];
+	handleData: function(data) {
+		this.setState( { tasks: data } );
+	},
 
-		return { view: this.props.screen.list, tasks: tasks };
+	componentDidMount: function() {
+		$.get('/tasks', this.handleData);
+	},
+
+	getInitialState: function() {
+		return { view: this.props.screen.list, tasks: [] };
 	},
 
 	createTask: function(taskDescription) {
-		return { description: taskDescription, done: false, id: generateUUID() };
+		return { description: taskDescription };
 	},
 
 	editEntry: function(entry) {
@@ -48,20 +54,21 @@ var Controller = React.createClass({
 	},
 
 	addTask: function(task) {
-		const tasks = this.state.tasks;
+		console.log(task);
+		$.post('/new-task', { content: JSON.stringify(task) }, this.handleData);
+		// const tasks = this.state.tasks;
 		
-		var exists = false;
-		for (var i = 0; i < tasks.length; i++) {
-			if (task.id === tasks[i].id) {
-				tasks[i] = task;
-				exists = true;
-				break;
-			}
-		}
-		if (!exists)
-			tasks.push(task);
-
-		this.setState( { tasks: tasks } );
+		// var exists = false;
+		// for (var i = 0; i < tasks.length; i++) {
+		// 	if (task.id === tasks[i].id) {
+		// 		tasks[i] = task;
+		// 		exists = true;
+		// 		break;
+		// 	}
+		// }
+		// if (!exists) {
+		// 	$.post('/new-task', { content: JSON.stringify(task) }, this.handleData);
+		// }
 	},
 
 	render: function() {
