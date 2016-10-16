@@ -28,14 +28,10 @@ app.post("/new-task", function(req, res)
 	var task = JSON.parse(req.body.content);
 
 	if (task.hasOwnProperty("id")) {
-		index = tasks.map(function(obj, index) {
-		    if(obj.id === task.id) {
-		        return index;
-		    }
-		}).filter(isFinite);
+		const index = findTaskIndexById(task.id);
 
-		if (index.length > 0) {
-			tasks[index[0]].description = task.description;
+		if (index >= 0) {
+			tasks[index].description = task.description;
 			db.collection('tasks').update({ id: task.id },  { $set: { description: task.description } });
 		}
 		else 
@@ -51,30 +47,20 @@ app.post("/new-task", function(req, res)
 app.post("/toggle-task", function(req, res)
 {
 	var task = JSON.parse(req.body.content);
+	const index = findTaskIndexById(task.id);
 
-	index = tasks.map(function(obj, index) {
-	    if(obj.id === task.id) return index;
-	}).filter(isFinite);
-
-	if (index.length > 0) {
-		tasks[index[0]].done = task.done;
-	}
+	if (index >= 0)
+		tasks[index].done = task.done;
 
 	db.collection('tasks').update({ id: task.id },  { $set: { done: task.done } });
 });
 
 app.post("/delete-task", function(req, res)
 {
-	const id = req.body.id;
+	const index = findTaskIndexById(req.body.id);
 
-	index = tasks.map(function(obj, index) {
-	    if(obj.id === id) {
-	        return index;
-	    }
-	}).filter(isFinite);
-
-	if (index.length > 0) {
-		tasks.splice(index[0], 1);
+	if (index >= 0) {
+		tasks.splice(index, 1);
 
 		db.collection('tasks').remove( { id: id } );
 	}
@@ -130,6 +116,16 @@ function generateUUID() {
     });
 
     return uuid;
+}
+
+function findTaskIndexById(taskId) {
+	index = tasks.map(function(obj, index) {
+	    if(obj.id === taskId) {
+	        return index;
+	    }
+	}).filter(isFinite);
+
+	return (index.length > 0) ? index[0] : null;
 }
 
 function createTask(taskDescription) {
