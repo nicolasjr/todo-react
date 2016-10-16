@@ -15,7 +15,7 @@ Assuming you already have installed Node and npm (if you don't, [check how to he
 npm install
 ```
 
-* get your Mongo.db running (to install mongo locally, check [this page](https://docs.mongodb.com/v3.2/administration/install-community/))
+* Get your Mongo.db running (to install mongo locally, check [this page](https://docs.mongodb.com/v3.2/administration/install-community/))
 ```
 mongod --port 27017
 ```
