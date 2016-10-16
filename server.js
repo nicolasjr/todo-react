@@ -1,14 +1,17 @@
-var express = require('express');
-var fs = require('fs');
-var app = express();
-var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json()
+const express = require('express');
+const fs = require('fs');
+const app = express();
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const MongoClient = require('mongodb').MongoClient;
+var db;
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var tasks = [{ description: "Create your first task", done: false, id: generateUUID() }];
+var tasks = [];
+const mongodbUri = "mongodb://localhost:27017";
 
 app.get("/", function(req, res)
 {
@@ -31,14 +34,15 @@ app.post("/new-task", function(req, res)
 		    }
 		}).filter(isFinite);
 
-		if (index.length > 0)
+		if (index.length > 0) {
 			tasks[index[0]].description = task.description;
-
-		else
-			tasks.push(createTask(task.description));
+			db.collection('tasks').update({ id: task.id },  { $set: { description: task.description } });
+		}
+		else 
+			pushTask(createTask(task.description));
 	}
 	else {
-		tasks.push(createTask(task.description));
+		pushTask(createTask(task.description));
 	}
 
 	res.json(tasks);
@@ -56,6 +60,8 @@ app.post("/delete-task", function(req, res)
 
 	if (index.length > 0) {
 		tasks.splice(index[0], 1);
+
+		db.collection('tasks').remove( { id: id } );
 	}
 
 	res.json(tasks);
@@ -77,9 +83,27 @@ app.use(function(error, req, res, next) {
 	next();
 });
 
-app.listen(3000, function() {
-	console.log('ToDo List app listening on port 3000!');
+MongoClient.connect(mongodbUri, function(err, database) {
+	if (err) return console.error(err);
+	
+	app.listen(3000, function() {
+		console.log('listening on 3000');
+	});
+
+	db = database;
+	db.collection('tasks').find().toArray(function(err, results) {
+		tasks = results;
+	});
 });
+
+function pushTask(task, callback) {
+	db.collection('tasks').save(task, function(err, result) {
+		if (err) 
+			return console.error(err);
+	});
+
+	tasks.push(task);
+}
 
 function generateUUID() {
     var d = new Date().getTime();
@@ -96,3 +120,4 @@ function generateUUID() {
 function createTask(taskDescription) {
 	return { description: taskDescription, done: false, id: generateUUID() };
 }
+

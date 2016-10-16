@@ -25,16 +25,6 @@ var Controller = React.createClass({
 
 	deleteEntry: function(task) {
 		$.post('/delete-task', { id: task.id }, this.handleData);
-		// const tasks = this.state.tasks;
-
-		// for (var i = 0; i < tasks.length; i++) {
-		// 	if (task.id === tasks[i].id) {
-		// 		tasks.splice(i, 1);
-		// 		break;
-		// 	}
-		// }
-
-		// this.setState( { tasks: tasks } );
 	},
 
 	closeEdit: function() {

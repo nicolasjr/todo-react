@@ -24,8 +24,9 @@
   },
   "homepage": "https://github.com/nicolasjr/todo-react#readme",
   "dependencies": {
-    "express": "4.14.0",
     "babel-cli": "6.16.0",
-    "body-parser": "1.15.2"
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "mongodb": "^2.2.10"
   }
 }
