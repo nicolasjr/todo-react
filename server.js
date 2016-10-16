@@ -57,7 +57,8 @@ app.post("/toggle-task", function(req, res)
 
 app.post("/delete-task", function(req, res)
 {
-	const index = findTaskIndexById(req.body.id);
+	const id = req.body.id;
+	const index = findTaskIndexById(id);
 
 	if (index >= 0) {
 		tasks.splice(index, 1);
