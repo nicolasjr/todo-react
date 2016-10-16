@@ -7,8 +7,9 @@ var Task = React.createClass({
 	handleCheckboxClick: function(e)  {
 		var t = this.state.task;
 		t.done = e.target.checked;
-		this.setState( { task: t });
+		$.post('/toggle-task', { content: JSON.stringify(t) });
 		this.props.handleUpdate();
+		this.setState( { task: t });
 	},
 
 	handleEditClick: function() {

@@ -48,6 +48,21 @@ app.post("/new-task", function(req, res)
 	res.json(tasks);
 });
 
+app.post("/toggle-task", function(req, res)
+{
+	var task = JSON.parse(req.body.content);
+
+	index = tasks.map(function(obj, index) {
+	    if(obj.id === task.id) return index;
+	}).filter(isFinite);
+
+	if (index.length > 0) {
+		tasks[index[0]].done = task.done;
+	}
+
+	db.collection('tasks').update({ id: task.id },  { $set: { done: task.done } });
+});
+
 app.post("/delete-task", function(req, res)
 {
 	const id = req.body.id;
